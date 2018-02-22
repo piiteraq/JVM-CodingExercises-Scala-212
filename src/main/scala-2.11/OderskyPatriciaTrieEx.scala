@@ -1,5 +1,7 @@
 import collection._
 import scala.annotation.tailrec
+import collection.mutable.{Builder, MapBuilder}
+import collection.generic.CanBuildFrom
 
 class PrefixMap[T]
   extends mutable.Map[String, T]
@@ -50,9 +52,28 @@ class PrefixMap[T]
   override def empty = new PrefixMap[T]
 }
 
-object PrefixMap {
-  def apply[T]() = new PrefixMap[T].empty
+
+object PrefixMap extends {
+
+  def empty[T] = new PrefixMap[T]
+
+  def apply[T](kvs: (String, T)*): PrefixMap[T] = {
+    val m: PrefixMap[T] = empty
+    for (kv <- kvs) m += kv
+    m
+  }
+
+  def newBuilder[T]: Builder[(String, T), PrefixMap[T]] =
+    new MapBuilder[String, T, PrefixMap[T]](empty)
+
+  implicit def StringCanBuildFrom[T]:
+    CanBuildFrom[PrefixMap[_], (String, T), PrefixMap[T]] =
+      new CanBuildFrom[PrefixMap[_], (String, T), PrefixMap[T]] {
+        def apply(from: PrefixMap[_]) = newBuilder[T]
+        def apply() = newBuilder[T]
+      }
 }
+
 
 object PrefixMapRun extends App {
 
@@ -63,4 +84,10 @@ object PrefixMapRun extends App {
   pm += (("abelian", 4))
 
   for ((k,v) <- pm) { println(s"k: $k, v: $v") }
+
+  val pm1 = PrefixMap("hello" -> 5, "hi" -> 2)
+  val pm2 = PrefixMap.empty[String]
+
+  println(pm1 map { case (k,v) => (k + "!", "x" * v)})
+  // PrefixMap[String] = Map(hello! -> xxxxx, hi! -> xx)
 }
