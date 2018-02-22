@@ -33,7 +33,7 @@ final class RNA1 private (val groups: Array[Int], val length: Int)
     var i = 0
     var b = 0
     while (i < length) {
-      b = if (i % N == 0) groups(i / N) else b >>> S
+      b = if (i % N == 0) groups(i / N) else b >>> S // '>>>': right-shift without sign-extension, i.e. zero-extended
       f(Base.fromInt(b & M))
       i += 1
     }
