@@ -1,3 +1,5 @@
+package OSV
+
 /**
   * Created by petec on 9/10/16.
   */
@@ -33,7 +35,7 @@ abstract class Simulation {
 
   def run() = {
     afterDelay(0) {
-      println(s"*** Simulation started, time $currentTime ***")
+      println(s"*** OSV.Simulation started, time $currentTime ***")
     }
     while (!agenda.isEmpty) next()
   }

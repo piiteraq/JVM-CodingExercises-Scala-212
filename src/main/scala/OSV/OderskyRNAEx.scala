@@ -1,7 +1,9 @@
+package OSV
+
 // Example from Odersky 25.3
-import collection.{IndexedSeqLike, mutable}
-import collection.mutable.{ArrayBuffer, Builder}
-import collection.generic.CanBuildFrom
+import scala.collection.IndexedSeqLike
+import scala.collection.generic.CanBuildFrom
+import scala.collection.mutable.{ArrayBuffer, Builder}
 
 abstract class Base
 case object A extends Base

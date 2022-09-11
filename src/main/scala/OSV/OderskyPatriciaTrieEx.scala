@@ -1,7 +1,10 @@
-import collection._
+package OSV
+
 import scala.annotation.tailrec
-import collection.mutable.{Builder, MapBuilder}
-import collection.generic.CanBuildFrom
+import scala.collection._
+import scala.collection.generic.CanBuildFrom
+import scala.collection.immutable.Map
+import scala.collection.mutable.{Builder, MapBuilder}
 
 class PrefixMap[T]
   extends mutable.Map[String, T]
@@ -40,7 +43,7 @@ class PrefixMap[T]
       (for ((chr, m) <- suffixes.iterator;
             (s, v) <- m.iterator) yield (chr +: s, v))
 
-  def +=(kv: (String, T)): this.type = { // this.type ~ PrefixMap[T]
+  def +=(kv: (String, T)): this.type = { // this.type ~ OSV.PrefixMap[OSV.T]
     update(kv._1, kv._2); this
   }
 
@@ -89,5 +92,5 @@ object PrefixMapRun extends App {
   val pm2 = PrefixMap.empty[String]
 
   println(pm1 map { case (k,v) => (k + "!", "x" * v)})
-  // PrefixMap[String] = Map(hello! -> xxxxx, hi! -> xx)
+  // OSV.PrefixMap[String] = Map(hello! -> xxxxx, hi! -> xx)
 }
